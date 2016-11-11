@@ -1,8 +1,12 @@
 package com.suglob.information_handling.interpreter;
-
-public class TerminalExpressionMinus extends AbstractMathExpression {
+class TerminalExpressionMinus extends AbstractMathExpression {
     @Override
     public void interpret(Context c) {
-        c.pushValue(c.popValue() - c.popValue());
+        Double first=c.popValue();
+        Double second=0.0;
+        if (!c.isEmpty()){
+            second=c.popValue();
+        }
+        c.pushValue(second-first);
     }
 }

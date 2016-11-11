@@ -3,7 +3,7 @@ package com.suglob.information_handling.calculation;
 
 import java.util.*;
 
-public class PolishNotation {
+public class ConvertPolishNotation {
     public static final Map<String, Integer> MAIN_MATH_OPERATIONS;
     public static final String LEFTBRACKET="(";
     public static final String RIGHTBRACKET=")";

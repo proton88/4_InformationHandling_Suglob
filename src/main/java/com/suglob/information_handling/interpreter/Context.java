@@ -2,12 +2,15 @@ package com.suglob.information_handling.interpreter;
 
 import java.util.ArrayDeque;
 
-public class Context {
-    private ArrayDeque<Integer> contextValues = new ArrayDeque<>();
-    public Integer popValue() {
+class Context {
+    private ArrayDeque<Double> contextValues = new ArrayDeque<>();
+    public Double popValue() {
         return contextValues.pop();
     }
-    public void pushValue(Integer value) {
+    public void pushValue(Double value) {
         this.contextValues.push(value);
+    }
+    public boolean isEmpty(){
+        return contextValues.isEmpty();
     }
 }

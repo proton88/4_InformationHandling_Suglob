@@ -1,4 +1,4 @@
-package com.suglob.information_handling.parse;
+package com.suglob.information_handling.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
-public class ParseFile {
+public class ReadFile {
     public static String parseTxt(String fileName){
         StringBuilder text=new StringBuilder();
         int i;

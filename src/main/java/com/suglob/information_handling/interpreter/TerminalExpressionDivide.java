@@ -1,9 +1,11 @@
 package com.suglob.information_handling.interpreter;
 
 
-public class TerminalExpressionDivide extends AbstractMathExpression{
+class TerminalExpressionDivide extends AbstractMathExpression{
     @Override
     public void interpret(Context c) {
-        c.pushValue((c.popValue() / c.popValue()));
+        Double first=c.popValue();
+        Double second=c.popValue();
+        c.pushValue(second/first);
     }
 }

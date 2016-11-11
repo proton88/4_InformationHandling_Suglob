@@ -1,6 +1,6 @@
 package com.suglob.information_handling.parse;
 
-import com.suglob.information_handling.calculation.PolishNotation;
+import com.suglob.information_handling.calculation.ConvertPolishNotation;
 import com.suglob.information_handling.entity.CompositeText;
 import com.suglob.information_handling.entity.Lexeme;
 import com.suglob.information_handling.entity.TypeText;
@@ -22,7 +22,7 @@ public class ParseSentence implements ParseInterface {
         for (String lexeme:lexemes){
             Matcher matcher =pattern.matcher(lexeme);
             if (matcher.lookingAt()){
-                lexeme= PolishNotation.sortingStation(lexeme);
+                lexeme= ConvertPolishNotation.sortingStation(lexeme);
                 interpreter=new Client(lexeme);
                 lexeme= String.valueOf(interpreter.calculate());
             }

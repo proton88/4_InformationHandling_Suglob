@@ -32,11 +32,6 @@ public class CompositeText implements Component {
     }
 
     @Override
-    public void setText(String text) {
-
-    }
-
-    @Override
     public void print() {
         for (Component element: components){
             element.print();
@@ -45,4 +40,5 @@ public class CompositeText implements Component {
             }
         }
     }
+
 }

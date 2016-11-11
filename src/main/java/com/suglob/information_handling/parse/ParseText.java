@@ -1,7 +1,6 @@
 package com.suglob.information_handling.parse;
 
 import com.suglob.information_handling.entity.CompositeText;
-import com.suglob.information_handling.entity.Lexeme;
 import com.suglob.information_handling.entity.TypeText;
 
 

@@ -1,7 +1,7 @@
 package com.suglob.information_handling.interpreter;
 
-public class NonterminalExpressionNumber extends AbstractMathExpression{
-    private int number;
+class NonterminalExpressionNumber extends AbstractMathExpression{
+    private double number;
     public NonterminalExpressionNumber(int number) {
         this.number = number;
     }

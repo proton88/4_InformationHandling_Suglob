@@ -3,6 +3,7 @@ package com.suglob.information_handling.action;
 
 import com.suglob.information_handling.entity.Component;
 import com.suglob.information_handling.entity.CompositeText;
+import com.suglob.information_handling.entity.Lexeme;
 
 public class TextAction {
     public static void removeNextEqualsFirst(CompositeText compositeText){
@@ -17,7 +18,11 @@ public class TextAction {
                             newLexema+=lexeme.toString().charAt(i);
                         }
                     }
-                    lexeme.setText(newLexema.trim());
+                    if (lexeme instanceof Lexeme) {
+                        Lexeme lex = (Lexeme) lexeme;
+                        lex.setText(newLexema.trim());
+                    }
+
                 }
             }
         }

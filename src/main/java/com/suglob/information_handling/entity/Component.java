@@ -6,6 +6,5 @@ public interface Component {
     public ArrayList<Component> getComponents();
     public void addTextElement(Component element);
     public void removeTextElement(Component element);
-    public void setText(String text);
     void print();
 }
