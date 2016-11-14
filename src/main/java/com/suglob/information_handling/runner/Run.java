@@ -9,6 +9,8 @@ import com.suglob.information_handling.parse.ParseText;
 
 public class Run {
     public static final String FILENAME="src/main/resources/files/in.txt";
+    public static final char SYMBOL='l';
+    public static final int LEXEME_SIZE=4;
 
     public static void main(String[] args) {
 
@@ -16,9 +18,13 @@ public class Run {
         String text= ReadFile.parseTxt(FILENAME);
         ParseText parseText=new ParseText();
         CompositeText compositeText=parseText.parse(text);
-        compositeText.print();
-        System.out.println();
+
+        System.out.println(compositeText);
 
         TextAction.removeNextEqualsFirst(compositeText);
+
+        TextAction.changeLexemesFirstLast(compositeText);
+
+        TextAction.removeLexemes(compositeText,LEXEME_SIZE,SYMBOL);
     }
 }

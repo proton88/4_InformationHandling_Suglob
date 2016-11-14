@@ -13,25 +13,13 @@ public class Lexeme implements Component {
         this.text = text;
     }
 
+
     @Override
     public ArrayList<Component> getComponents() {
+        //log
         return null;
     }
 
-    @Override
-    public void addTextElement(Component element) {
-
-    }
-
-    @Override
-    public void removeTextElement(Component element) {
-
-    }
-
-    @Override
-    public void print() {
-        System.out.print(text+" ");
-    }
 
     @Override
     public String toString() {

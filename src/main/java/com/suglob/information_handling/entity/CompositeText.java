@@ -11,6 +11,24 @@ public class CompositeText implements Component {
         this.typeText=typeText;
     }
 
+    public CompositeText(CompositeText text){
+        components =new ArrayList<>();
+        CompositeText newText=new CompositeText(TypeText.TEXT);
+        for (Component pharagraph : text.getComponents()) {
+            CompositeText newPharagraph=new CompositeText(TypeText.PHARAGRAPH);
+            for (Component sentence : pharagraph.getComponents()) {
+                CompositeText newSentence=new CompositeText(TypeText.SENTENCE);
+                for (Component lexeme : sentence.getComponents()) {
+                    Component newLexeme=new Lexeme(lexeme.toString().trim());
+                    newSentence.addTextElement(newLexeme);
+                }
+                newPharagraph.addTextElement(newSentence);
+            }
+            newText.addTextElement(newPharagraph);
+        }
+        components.add(newText);
+    }
+
     public CompositeText() {
         components =new ArrayList<>();
     }
@@ -31,14 +49,17 @@ public class CompositeText implements Component {
         components.remove(element);
     }
 
+
     @Override
-    public void print() {
+    public String toString() {
+        StringBuilder text=new StringBuilder("");
         for (Component element: components){
-            element.print();
+            text.append(element);
             if (typeText==TypeText.TEXT){
-                System.out.println();
+                text.append("\n");
             }
         }
-    }
 
+        return text.toString();
+    }
 }
