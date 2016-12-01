@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client {
+    public static final String EXPRESSION_DELIMETR="\\p{Blank}+";
+    public static final char PLUS='+';
+    public static final char MINUS='-';
+    public static final char MULTIPLY='*';
+    public static final char DIVIDE='/';
     private ArrayList<AbstractMathExpression> listExpression;
 
     public Client(String expression) {
@@ -11,32 +16,31 @@ public class Client {
         parse(expression);
     }
 
-    private void parse(String expression) { // синтаксический анализ
-        for (String lexeme : expression.split("\\p{Blank}+")) {
+    private void parse(String expression) {
+        for (String lexeme : expression.split(EXPRESSION_DELIMETR)) {
             if (lexeme.isEmpty()) {
                 continue;
             }
             char temp = lexeme.charAt(0);
             switch (temp) {
-                case '+':
+                case PLUS:
                     if (lexeme.length()==2){
                         break;
                     }else {
                         listExpression.add(new TerminalExpressionPlus());
                         break;
                     }
-                case '-':
+                case MINUS:
                     if (lexeme.length()==2){
                         break;
                     }else {
                         listExpression.add(new TerminalExpressionMinus());
                         break;
                     }
-
-                case '*':
+                case MULTIPLY:
                     listExpression.add(new TerminalExpressionMultiply());
                     break;
-                case '/':
+                case DIVIDE:
                     listExpression.add(new TerminalExpressionDivide());
                     break;
                 default:
@@ -49,7 +53,7 @@ public class Client {
         }
     }
 
-    public Number calculate() {
+    public Double calculate() {
         Context context = new Context();
         for (AbstractMathExpression terminal : listExpression) {
             terminal.interpret(context);

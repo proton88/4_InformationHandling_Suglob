@@ -1,12 +1,19 @@
 package com.suglob.information_handling.calculation;
 
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
 public class ConvertPolishNotation {
+    static final Logger logger = Logger.getLogger(ConvertPolishNotation.class);
+
     public static final Map<String, Integer> MAIN_MATH_OPERATIONS;
     public static final String LEFTBRACKET="(";
     public static final String RIGHTBRACKET=")";
+    public static final String INCREMENT="++";
+    public static final String DECREMENT="--";
+    public static final String RESULT_DELIMETER=" ";
+    public static final String EMPTY="";
 
     static {
         MAIN_MATH_OPERATIONS = new HashMap<String, Integer>();
@@ -19,33 +26,22 @@ public class ConvertPolishNotation {
     }
 
     public static String sortingStation(String expression) {
-        if (expression == null || expression.length() == 0)
-            throw new IllegalStateException("Expression isn't specified.");
-        if (MAIN_MATH_OPERATIONS == null || MAIN_MATH_OPERATIONS.isEmpty())
-            throw new IllegalStateException("Operations aren't specified.");
-        // Выходная строка, разбитая на "символы" - операции и операнды..
-        List<String> out = new ArrayList<String>();
-        // Стек операций.
-        Stack<String> stack = new Stack<String>();
+        List<String> out = new ArrayList<>();
+        Stack<String> stack = new Stack<>();
 
-        // Удаление пробелов из выражения.
-        expression = expression.replace(" ", "");
-
-        // Множество "символов", не являющихся операндами (операции и скобки).
         Set<String> operationSymbols = new HashSet<String>(MAIN_MATH_OPERATIONS.keySet());
         operationSymbols.add(LEFTBRACKET);
         operationSymbols.add(RIGHTBRACKET);
 
-        // Индекс, на котором закончился разбор строки на прошлой итерации.
         int index = 0;
         int isIncrement = 0;
         int isDecrement = 0;
-        // Признак необходимости поиска следующего элемента.
+
         boolean findNext = true;
         while (findNext) {
             int nextOperationIndex = expression.length();
-            String nextOperation = "";
-            // Поиск следующего оператора или скобки.
+            String nextOperation = EMPTY;
+
             for (String operation : operationSymbols) {
                 int i = expression.indexOf(operation, index);
                 if (i >= 0 && i < nextOperationIndex) {
@@ -53,11 +49,11 @@ public class ConvertPolishNotation {
                     nextOperationIndex = i;
                 }
             }
-            // Оператор не найден.
+
             if (nextOperationIndex == expression.length()) {
                 findNext = false;
             } else {
-                // Если оператору или скобке предшествует операнд, добавляем его в выходную строку.
+
                 if (index != nextOperationIndex) {
                     if (isIncrement==1) {
                         int buf = Integer.parseInt(expression.substring(index, nextOperationIndex));
@@ -72,33 +68,26 @@ public class ConvertPolishNotation {
                     }else{
                         out.add(expression.substring(index, nextOperationIndex));
                     }
-
-
-                    //out.add(expression.substring(index, nextOperationIndex));
                 }
-                // Обработка операторов и скобок.
-                // Открывающая скобка.
+
                 if (nextOperation.equals(LEFTBRACKET)) {
                     stack.push(nextOperation);
                 }
-                // Закрывающая скобка.
+
                 else if (nextOperation.equals(RIGHTBRACKET)) {
                     while (!stack.peek().equals(LEFTBRACKET)) {
                         out.add(stack.pop());
-                        if (stack.empty()) {
-                            throw new IllegalArgumentException("Unmatched brackets");
-                        }
                     }
                     stack.pop();
                 }
-                // Операция.
+
                 else {
                     isIncrement=0;
                     isDecrement=0;
-                    if (nextOperation.equals("++")){
+                    if (nextOperation.equals(INCREMENT)){
                         isIncrement=1;
                     }
-                    if (nextOperation.equals("--")){
+                    if (nextOperation.equals(DECREMENT)){
                         isDecrement=1;
                     }
                     while (!stack.empty() && !stack.peek().equals(LEFTBRACKET) &&
@@ -110,7 +99,7 @@ public class ConvertPolishNotation {
                 index = nextOperationIndex + nextOperation.length();
             }
         }
-        // Добавление в выходную строку операндов после последнего операнда.
+
         if (index != expression.length()) {
             if (isIncrement==1) {
                 int buf = Integer.parseInt(expression.substring(index));
@@ -126,16 +115,18 @@ public class ConvertPolishNotation {
                 out.add(expression.substring(index));
             }
         }
-        // Пробразование выходного списка к выходной строке.
+
         while (!stack.empty()) {
             out.add(stack.pop());
         }
         StringBuffer result = new StringBuffer();
-        if (!out.isEmpty())
+        if (!out.isEmpty()) {
             result.append(out.remove(0));
-        while (!out.isEmpty())
-            result.append(" ").append(out.remove(0));
-
+        }
+        while (!out.isEmpty()) {
+            result.append(RESULT_DELIMETER).append(out.remove(0));
+        }
+        logger.info("Convert to polish notation was successful");
         return result.toString();
     }
 }

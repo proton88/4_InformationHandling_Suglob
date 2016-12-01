@@ -1,8 +1,12 @@
 package com.suglob.information_handling.entity;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 
 public class Lexeme implements Component {
+    static Logger logger = Logger.getLogger(Lexeme.class);
+
     private String text;
 
     public Lexeme(String text) {
@@ -16,7 +20,7 @@ public class Lexeme implements Component {
 
     @Override
     public ArrayList<Component> getComponents() {
-        //log
+        logger.error("Attempting to call getComponents from Lexeme");
         return null;
     }
 

@@ -4,9 +4,12 @@ package com.suglob.information_handling.action;
 import com.suglob.information_handling.entity.Component;
 import com.suglob.information_handling.entity.CompositeText;
 import com.suglob.information_handling.entity.Lexeme;
+import org.apache.log4j.Logger;
 
 public class TextAction {
-    public static void removeNextEqualsFirst(CompositeText compositeText){
+    static Logger logger = Logger.getLogger(TextAction.class);
+
+    public static CompositeText removeNextEqualsFirst(CompositeText compositeText){
         CompositeText newCompositeText=new CompositeText(compositeText);
         Component text=newCompositeText.getComponents().get(0);
         for (Component pharagraph : text.getComponents()) {
@@ -28,39 +31,46 @@ public class TextAction {
                 }
             }
         }
-        System.out.println(newCompositeText);
+        logger.info("To delete all subsequent occurrences of the first token letter fulfilled.");
+        return newCompositeText;
     }
 
-    public static void changeLexemesFirstLast(CompositeText compositeText){
+    public static CompositeText changeLexemesFirstLast(CompositeText compositeText){
         CompositeText newCompositeText=new CompositeText(compositeText);
         Component text=newCompositeText.getComponents().get(0);
         for (Component pharagraph : text.getComponents()) {
             for (Component sentence : pharagraph.getComponents()) {
-                Component lexeme=sentence.getComponents().get(0);
+                Component firstLexeme=sentence.getComponents().get(0);
+                int lastIndex=sentence.getComponents().size();
+                Component lastLexeme=sentence.getComponents().get(lastIndex-1);
                 sentence.getComponents().remove(0);
-                sentence.getComponents().add(lexeme);
+                sentence.getComponents().add(0,lastLexeme);
+                sentence.getComponents().remove(lastIndex-1);
+                sentence.getComponents().add(firstLexeme);
             }
         }
-        System.out.println(newCompositeText);
+        logger.info("Change first and last lexemes in sentences was executed");
+        return newCompositeText;
     }
 
-    public static void removeLexemes(CompositeText compositeText, int length, char symbol){
+    public static CompositeText removeLexemes(CompositeText compositeText, int length, char symbol){
         CompositeText newCompositeText=new CompositeText(compositeText);
         Component text=newCompositeText.getComponents().get(0);
         for (Component pharagraph : text.getComponents()) {
             for (int i=0; i<pharagraph.getComponents().size();i++){
-            //for (Component sentence : pharagraph.getComponents()) {
                 Component sentence=pharagraph.getComponents().get(i);
-                //for (Component lexeme : sentence.getComponents()) {
                 for (int j=0; j<sentence.getComponents().size();j++){
                     Component lexeme=sentence.getComponents().get(j);
                     if (lexeme.toString().charAt(0)==symbol && lexeme.toString().trim().length()==length){
-                        ((CompositeText)sentence).removeTextElement(lexeme);
+                        if (sentence instanceof CompositeText) {
+                            ((CompositeText) sentence).removeTextElement(lexeme);
+                        }
                         j--;
                     }
                 }
             }
         }
-        System.out.println(newCompositeText);
+        logger.info("Remove all lexemes by symbol: "+symbol+ " and length: "+length+ " was executed");
+        return newCompositeText;
     }
 }
